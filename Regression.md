@@ -1,5 +1,8 @@
-# Starting point
-```pyhton
+# Randomly order data
+```R
+set.seed(123)
+rows<-sample(nrow(dataset))
+random_dataset<-dataset[rows,]
 ```
 
 # Models
