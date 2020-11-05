@@ -19,8 +19,30 @@ test_data<-random_dataset[-training_samples,]
 ```
 
 # Models
+## 
+
 ## Linear Regression
 ## K-Neighbors
+```R
+# Fit the model on the training set
+set.seed(123)
+model <- train(
+  Rate_Mort_Child~., data = train_data, method = "knn",
+  trControl = trainControl("cv", number = 10),
+  preProcess = c("center","scale"),
+  tuneLength = 10
+  )
+# Plot model error RMSE vs different values of k
+plot(model)
+# Best tuning parameter k that minimize the RMSE
+model$bestTune
+# Make predictions on the test data
+predictions <- model %>% predict(test_data)
+head(predictions)
+# Compute the prediction error RMSE
+RMSE(predictions, test_data$Rate_Mort_Child)
+```
+
 ## Decision Tree
 
 # Metrics
