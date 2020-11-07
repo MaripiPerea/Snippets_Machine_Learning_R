@@ -26,22 +26,32 @@ test_data<-random_dataset[-training_samples,]
 ```R
 # Fit the model on the training set
 set.seed(123)
-model <- train(
-  Rate_Mort_Child~., data = train_data, method = "knn",
-  trControl = trainControl("cv", number = 10),
-  preProcess = c("center","scale"),
-  tuneLength = 10
-  )
+model_KNN<-train(Rate_Mort_Child~.,data=train_data,
+                 method="knn",
+                 trControl=trainControl("repeatedcv",number = 5, repeats = 3),
+                 preProcess=c("center","scale"),
+                 metric=c("RMSE"),
+                 tuneLength=10)
+                 
 # Plot model error RMSE vs different values of k
-plot(model)
+plot(model_KNN,main="KNN vs RMSE")
+
+# Information stored in the list returned by train()
+names(model_KNN)
+
 # Best tuning parameter k that minimize the RMSE
-model$bestTune
+model_KNN$bestTune
+metrics_train<-model_KNN$results[1,2:7]
+
 # Make predictions on the test data
-predictions <- model %>% predict(test_data)
+predictions <- model_KNN %>% predict(test_data)
 head(predictions)
+
 # Compute the prediction error RMSE
 RMSE(predictions, test_data$Rate_Mort_Child)
 ```
+
+
 
 ## Decision Tree
 
