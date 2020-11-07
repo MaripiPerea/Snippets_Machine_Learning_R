@@ -41,14 +41,26 @@ names(model_KNN)
 
 # Best tuning parameter k that minimize the RMSE
 model_KNN$bestTune
-metrics_train<-model_KNN$results[1,2:7]
+metrics_train_KNN<-model_KNN$results[1,2:7]
+
+metricas_train_KNN<-data.frame("metrics_train"="metrics_train_KNN",
+                              Mean_RMSE=metrics_train$RMSE,
+                              Mean_MAE=metrics_train$MAE,
+                              Mean_RSquared=metrics_train$Rsquared,
+                              Tasa_Error_Train=metrics_train$RMSE/mean(train_data$Rate_Mort_Child))
 
 # Make predictions on the test data
-predictions <- model_KNN %>% predict(test_data)
-head(predictions)
+predictions_KNN<-model_KNN %>% predict(test_data)
 
-# Compute the prediction error RMSE
-RMSE(predictions, test_data$Rate_Mort_Child)
+# Compute the prediction error RMSE, MAE,R2
+Metricas_KNN_test<-data.frame("metrics_test"="metrics_test_KNN",
+                              RMSE=RMSE(predictions_KNN,test_data$Rate_Mort_Child),
+                              MAE=MAE(predictions_KNN,test_data$Rate_Mort_Child),
+                              RSquared=caret::R2(predictions_KNN,test_data$Rate_Mort_Child), 
+                              Tasa_Error_Test=RMSE(predictions_KNN,test_data$Rate_Mort_Child)/mean(test_data$Rate_Mort_Child))
+Metricas_KNN_test
+
+
 ```
 
 
