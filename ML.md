@@ -18,7 +18,7 @@ train_data<-random_dataset[training_samples,]
 test_data<-random_dataset[-training_samples,]
 ```
 
-# Models
+# 3.- Models
 ## 
 
 ## Linear Regression
@@ -70,7 +70,7 @@ ggplot(varImp(model_KNN),15,main="% Importancia Variables")
 
 
 ## Decision Tree
-### Decision Tree Classification "Pruning the tree" (complexity parameter (cp))
+### 1a.- Decision Tree Classification "Pruning the tree" (complexity parameter (cp))
 ```R
 # Fit the model on the training set
 library(rpart)
@@ -103,14 +103,27 @@ predicted.classes <- model2 %>% predict(test.data)
 mean(predicted.classes == test.data$diabetes)
 
 ```
-### Decision Tree Regression "Pruning the tree" (complexity parameter (cp))-> Similar Classification except for metrics
+### 1b.- Decision Tree Regression "Pruning the tree" (complexity parameter (cp))-> Similar Classification except for metrics
 ```R
 # Compute the prediction error RMSE
 RMSE(predictions, test.data$medv)
 ```
-### Conditional Inference Tree Classification 
+### 2.- Conditional Inference Tree Classification 
 ```R
+# Fit the model on the training set
+library(party)
+set.seed(123)
+model <- train(
+  diabetes ~., data = train.data, method = "ctree2",
+  trControl = trainControl("cv", number = 10),
+  tuneGrid = expand.grid(maxdepth = 3, mincriterion = 0.95 )
+  )
+plot(model$finalModel)
 
+# Make predictions on the test data
+predicted.classes <- model %>% predict(test.data)
+# Compute model accuracy rate on test data
+mean(predicted.classes == test.data$diabetes)
 ```
 
 # Metrics
