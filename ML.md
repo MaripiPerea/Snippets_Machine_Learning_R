@@ -52,7 +52,7 @@ metricas_train_KNN<-data.frame("metrics_train"="metrics_train_KNN",
 # Make predictions on the test data
 predictions_KNN<-model_KNN %>% predict(test_data)
 
-# Compute the prediction error RMSE, MAE,R2
+# Compute the prediction error RMSE, MAE,R2 & Error_Rate
 Metricas_KNN_test<-data.frame("metrics_test"="metrics_test_KNN",
                               RMSE=RMSE(predictions_KNN,test_data$Rate_Mort_Child),
                               MAE=MAE(predictions_KNN,test_data$Rate_Mort_Child),
@@ -60,12 +60,46 @@ Metricas_KNN_test<-data.frame("metrics_test"="metrics_test_KNN",
                               Tasa_Error_Test=RMSE(predictions_KNN,test_data$Rate_Mort_Child)/mean(test_data$Rate_Mort_Child))
 Metricas_KNN_test
 
+# Plot "Variable Importance"  
+ggplot(varImp(model_KNN),15,main="% Importancia Variables")
 
 ```
 
 
 
 ## Decision Tree
+### Decision Tree Clasification "Pruning the tree" (complexity parameter (cp))
+```R
+# Fit the model on the training set
+library(rpart)
+set.seed(123)
+model2 <- train(
+  diabetes ~., data = train.data, method = "rpart",
+  trControl = trainControl("cv", number = 10),
+  tuneLength = 10
+  )
+  
+# Plot model accuracy vs different values of
+# cp (complexity parameter)
+plot(model2)
+
+# Print the best tuning parameter cp that
+# maximizes the model accuracy
+model2$bestTune
+
+# Plot the final tree model
+par(xpd = NA) # Avoid clipping the text in some device
+plot(model2$finalModel)
+text(model2$finalModel,  digits = 3)
+
+# Decision rules in the model
+model2$finalModel
+
+# Make predictions on the test data
+predicted.classes <- model2 %>% predict(test.data)
+# Compute model accuracy rate on test data
+mean(predicted.classes == test.data$diabetes)
+```
 
 # Metrics
 ## MAE
