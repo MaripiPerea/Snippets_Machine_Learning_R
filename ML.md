@@ -22,7 +22,9 @@ test_data<-random_dataset[-training_samples,]
 ## 
 
 ## Linear Regression
-## K-Neighbors
+
+
+## K-Neighbors "Regression"
 ```R
 # Fit the model on the training set
 set.seed(123)
@@ -68,7 +70,7 @@ ggplot(varImp(model_KNN),15,main="% Importancia Variables")
 
 
 ## Decision Tree
-### Decision Tree Clasification "Pruning the tree" (complexity parameter (cp))
+### Decision Tree Classification "Pruning the tree" (complexity parameter (cp))
 ```R
 # Fit the model on the training set
 library(rpart)
@@ -99,6 +101,16 @@ model2$finalModel
 predicted.classes <- model2 %>% predict(test.data)
 # Compute model accuracy rate on test data
 mean(predicted.classes == test.data$diabetes)
+
+```
+### Decision Tree Regression "Pruning the tree" (complexity parameter (cp))-> Similar Classification except for metrics
+```R
+# Compute the prediction error RMSE
+RMSE(predictions, test.data$medv)
+```
+### Conditional Inference Tree Classification 
+```R
+
 ```
 
 # Metrics
