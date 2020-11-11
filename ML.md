@@ -126,7 +126,7 @@ predicted.classes <- model %>% predict(test.data)
 mean(predicted.classes == test.data$diabetes)
 ```
 
-## Random Forest-> Classification
+## Random Forest(Bagging)-> Classification
 ```R
 library(randomForest)
 # Fit the model on the training set
@@ -178,6 +178,29 @@ for (nodesize in c(1, 2, 4, 8)) {
 }
 # Compare results
 resamples(models) %>% summary(metric = "Accuracy")
+```
+## Gradient Boosting
+```R
+library(xgboost)
+# Fit the model on the training set
+set.seed(123)
+model <- train(
+  diabetes ~., data = train.data, method = "xgbTree",
+  trControl = trainControl("cv", number = 10)
+  )
+# Best tuning parameter
+model$bestTune
+
+# Make predictions on the test data
+predicted.classes <- model %>% predict(test.data)
+head(predicted.classes)
+
+# Compute model prediction accuracy rate
+mean(predicted.classes == test.data$diabetes)
+
+# displays the importance of variables in percentage
+varImp(model)
+
 ```
 
 # Metrics
