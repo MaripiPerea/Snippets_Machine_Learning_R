@@ -161,6 +161,25 @@ varImpPlot(model$finalModel, type = 2)
 varImp(model)
 
 ```
+
+### Hyperparameters "nodesize & maxnodes" -> RandomForest
+```R
+models <- list()
+for (nodesize in c(1, 2, 4, 8)) {
+    set.seed(123)
+    model <- train(
+      diabetes~., data = na.omit(PimaIndiansDiabetes2), method="rf", 
+      trControl = trainControl(method="cv", number=10),
+      metric = "Accuracy",
+      nodesize = nodesize
+      )
+    model.name <- toString(nodesize)
+    models[[model.name]] <- model
+}
+# Compare results
+resamples(models) %>% summary(metric = "Accuracy")
+```
+
 # Metrics
 ## MAE
 ## MAPE
