@@ -108,7 +108,7 @@ mean(predicted.classes == test.data$diabetes)
 # Compute the prediction error RMSE
 RMSE(predictions, test.data$medv)
 ```
-### 2.- Conditional Inference Tree Classification 
+### 2.- "Conditional Inference Tree" Classification 
 ```R
 # Fit the model on the training set
 library(party)
@@ -126,6 +126,41 @@ predicted.classes <- model %>% predict(test.data)
 mean(predicted.classes == test.data$diabetes)
 ```
 
+## Random Forest-> Classification
+```R
+library(randomForest)
+# Fit the model on the training set
+set.seed(123)
+model <- train(
+  diabetes ~., data = train.data, method = "rf",
+  trControl = trainControl("cv", number = 10),
+  importance = TRUE
+  )
+# Best tuning parameter
+model$bestTune
+
+# Final model
+model$finalModel
+
+# Make predictions on the test data
+predicted.classes <- model %>% predict(test.data)
+head(predicted.classes)
+
+# Compute model accuracy rate
+mean(predicted.classes == test.data$diabetes)
+
+#Variable importance
+importance(model$finalModel)
+
+# Plot MeanDecreaseAccuracy
+varImpPlot(model$finalModel, type = 1)
+# Plot MeanDecreaseGini
+varImpPlot(model$finalModel, type = 2)
+
+#displays the importance of variables in percentage
+varImp(model)
+
+```
 # Metrics
 ## MAE
 ## MAPE
