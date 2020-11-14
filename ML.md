@@ -1,3 +1,50 @@
+
+```R
+# Installa packages
+install.packages(c('caret', 'skimr', 'RANN', 'randomForest', 'fastAdaboost', 'gbm', 'xgboost', 'caretEnsemble', 'C50', 'earth'))
+
+# Load the caret package
+library(caret)
+
+# Import dataset
+orange <- read.csv('https://raw.githubusercontent.com/selva86/datasets/master/orange_juice_withmissing.csv')
+
+# Structure of the dataframe
+str(orange)
+
+# See top 6 rows and 10 columns
+head(orange[, 1:10])
+```
+
+# 3.- Statistics Descriptive
+```R
+library(skimr)
+skimmed <- skim_to_wide(train_data)
+skimmed[, c(1:5, 9:11, 13, 15:16)]
+
+```
+# Create the knn imputation model on the dataset
+
+```R
+preProcess_missingdata_model <- preProcess(orange, method='knnImpute')
+preProcess_missingdata_model
+```
+**Created from 828 samples and 18 variables
+
+**Pre-processing:
+  **- centered (16)
+  **- ignored (2)
+  **- 5 nearest neighbor imputation (16)
+  **- scaled (16)
+  
+# Use the imputation model to predict the values of missing data points
+```R
+library(RANN)  # required for knnInpute
+trainData <- predict(preProcess_missingdata_model, newdata = trainData)
+anyNA(trainData)    
+```
+
+
 # 1.- Randomly order data
 ```R
 set.seed(123)
@@ -16,7 +63,15 @@ training_samples<-random_dataset$Rate_Mort_Child %>%
   
 train_data<-random_dataset[training_samples,]
 test_data<-random_dataset[-training_samples,]
+
 ```
+
+
+
+
+
+
+
 
 # 3.- Models
 ## 
