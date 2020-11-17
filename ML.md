@@ -26,6 +26,7 @@ skimmed[, c(1:5, 9:11, 13, 15:16)]
 # Create the knn imputation model on the dataset
 
 ```R
+library(RANN)  # required for knnInpute
 preProcess_missingdata_model <- preProcess(orange, method='knnImpute')
 preProcess_missingdata_model
 ```
@@ -39,9 +40,8 @@ preProcess_missingdata_model
   
 # Use the imputation model to predict the values of missing data points
 ```R
-library(RANN)  # required for knnInpute
-trainData <- predict(preProcess_missingdata_model, newdata = trainData)
-anyNA(trainData)    
+orange1 <- predict(preProcess_missingdata_model, newdata = orange)
+anyNA(orange1)    
 ```
 
 
