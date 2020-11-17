@@ -26,7 +26,7 @@ skimmed[, c(1:5, 9:11, 13, 15:16)]
 # Create the knn imputation model on the dataset
 
 ```R
-library(RANN)  # required for knnInpute
+library(RANN)  # required for knnImpute
 preProcess_missingdata_model <- preProcess(orange, method='knnImpute')
 preProcess_missingdata_model
 ```
@@ -44,6 +44,21 @@ orange1 <- predict(preProcess_missingdata_model, newdata = orange)
 anyNA(orange1)    
 ```
 
+# One-Hot Encoding
+```R
+# Creating dummy variables is converting a categorical variable to as many binary variables as here are categories.
+dummies_model <- dummyVars(Purchase ~ ., data=trainData)
+
+# Create the dummy variables using predict. The Y variable (Purchase) will not be present in trainData_mat.
+trainData_mat <- predict(dummies_model, newdata = trainData)
+
+# # Convert to dataframe
+trainData <- data.frame(trainData_mat)
+
+# # See the structure of the new dataset
+str(trainData)
+```
+-------------------------------------------------------------------------------------------
 
 # 1.- Randomly order data
 ```R
