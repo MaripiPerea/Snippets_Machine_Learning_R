@@ -83,6 +83,13 @@ train_data<-random_dataset[training_samples,]
 test_data<-random_dataset[-training_samples,]
 
 ```
+------------------------------------------------------------------------------------------------------------------------
+
+# See available algorithms in caret
+```R
+modelnames <- paste(names(getModelInfo()), collapse=',  ')
+modelnames
+```
 
 --------------------------------------------------------------------------------------------------------------------------
 
