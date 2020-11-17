@@ -45,7 +45,9 @@ orange1 <- predict(preProcess_missingdata_model, newdata = orange)
 anyNA(orange1)    
 ```
 -------------------------------------------------------------------------------------------------------------------------
-# One-Hot Encoding
+# One-Hot Encoding 
+# If you have a categorical column as one of the features, 
+# it needs to be converted to numeric in order for it to be used by the machine learning algorithms
 ```R
 # Creating dummy variables is converting a categorical variable to as many binary variables as here are categories.
 dummies_model <- dummyVars(Purchase ~ ., data=trainData)
