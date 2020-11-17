@@ -15,14 +15,15 @@ str(orange)
 # See top 6 rows and 10 columns
 head(orange[, 1:10])
 ```
-
-# 3.- Statistics Descriptive
+----------------------------------------------------------------------------------------------------------------------
+# Statistics Descriptive
 ```R
 library(skimr)
 skimmed <- skim_to_wide(train_data)
 skimmed[, c(1:5, 9:11, 13, 15:16)]
 
 ```
+----------------------------------------------------------------------------------------------------------------------
 # Create the knn imputation model on the dataset
 
 ```R
@@ -43,7 +44,7 @@ preProcess_missingdata_model
 orange1 <- predict(preProcess_missingdata_model, newdata = orange)
 anyNA(orange1)    
 ```
-
+-------------------------------------------------------------------------------------------------------------------------
 # One-Hot Encoding
 ```R
 # Creating dummy variables is converting a categorical variable to as many binary variables as here are categories.
@@ -58,9 +59,9 @@ trainData <- data.frame(trainData_mat)
 # # See the structure of the new dataset
 str(trainData)
 ```
--------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
 
-# 1.- Randomly order data
+# Randomly order data
 ```R
 set.seed(123)
 
@@ -68,8 +69,8 @@ rows<-sample(nrow(dataset))
 
 random_dataset<-dataset[rows,]
 ```
-
-# 2.- CreateDataPartition
+-------------------------------------------------------------------------------------------------------------------------
+# CreateDataPartition
 ```R
 set.seed(123)
 
@@ -81,19 +82,14 @@ test_data<-random_dataset[-training_samples,]
 
 ```
 
-
-
-
-
-
-
+--------------------------------------------------------------------------------------------------------------------------
 
 # 3.- Models
 ## 
 
 ## Linear Regression
 
-
+----------------------------------------------------------------------------------------------------------------------------
 ## K-Neighbors "Regression"
 ```R
 # Fit the model on the training set
@@ -137,7 +133,7 @@ ggplot(varImp(model_KNN),15,main="% Importancia Variables")
 
 ```
 
-
+------------------------------------------------------------------------------------------------------------------------------
 
 ## Decision Tree
 ### 1a.- Decision Tree Classification "Pruning the tree" (complexity parameter (cp))
@@ -173,6 +169,7 @@ predicted.classes <- model2 %>% predict(test.data)
 mean(predicted.classes == test.data$diabetes)
 
 ```
+------------------------------------------------------------------------------------------------------------------------------------
 ### 1b.- Decision Tree Regression "Pruning the tree" (complexity parameter (cp))-> Similar Classification except for metrics
 ```R
 # Compute the prediction error RMSE
@@ -195,7 +192,7 @@ predicted.classes <- model %>% predict(test.data)
 # Compute model accuracy rate on test data
 mean(predicted.classes == test.data$diabetes)
 ```
-
+------------------------------------------------------------------------------------------------------------------------------
 ## Random Forest(Bagging)-> Classification
 ```R
 library(randomForest)
@@ -231,7 +228,7 @@ varImpPlot(model$finalModel, type = 2)
 varImp(model)
 
 ```
-
+-------------------------------------------------------------------------------------------------------------------------------------
 ### Hyperparameters "nodesize & maxnodes" -> RandomForest
 ```R
 models <- list()
@@ -249,6 +246,8 @@ for (nodesize in c(1, 2, 4, 8)) {
 # Compare results
 resamples(models) %>% summary(metric = "Accuracy")
 ```
+
+-------------------------------------------------------------------------------------------------------------------------
 ## Gradient Boosting
 ```R
 library(xgboost)
@@ -272,7 +271,7 @@ mean(predicted.classes == test.data$diabetes)
 varImp(model)
 
 ```
-
+--------------------------------------------------------------------------------------------------------------------------------
 # Metrics
 ## MAE
 ## MAPE
