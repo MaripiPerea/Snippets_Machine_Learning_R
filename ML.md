@@ -410,7 +410,10 @@ stackControl <- trainControl(method="repeatedcv",
                              classProbs=TRUE)
 
 # Ensemble the predictions of `models` to form a new combined prediction based on glm
-stack.glm <- caretStack(models, method="glm", metric="Accuracy", trControl=stackControl)
+stack.glm <- caretStack(models, 
+              method="glm", 
+              metric="Accuracy", 
+              trControl=stackControl)
 print(stack.glm)
 ```
 -----------------------------------------------------------------------------------------------------------------------------------------
