@@ -359,6 +359,12 @@ models_compare <- resamples(list(ADABOOST=model_adaboost,
 
 # Summary of the models performances
 summary(models_compare)
+
+```
+```R
+# Draw box plots to compare models
+scales <- list(x=list(relation="free"), y=list(relation="free"))
+bwplot(models_compare, scales=scales)
 ```
 -----------------------------------------------------------------------------------------------------------------------------------------
 
