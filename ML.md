@@ -333,19 +333,35 @@ varImp(model)
 
 ```
 -------------------------------------------------------------------------------------------------------------------------------
-## Adaboost-Gradient Boosting (Adaboost)
+## SVM
 ```R
 set.seed(100)
 
-# Train the model using adaboost
-model_adaboost = train(Purchase ~ ., 
-                 data=trainData, 
-                 method='adaboost', 
-                 tuneLength=2, 
-                 trControl = fitControl)
-model_adaboost
+# Train the model using MARS
+model_svmRadial = train(Purchase ~ ., 
+                  data=trainData, 
+                  method='svmRadial', 
+                  tuneLength=15, 
+                  trControl = fitControl)
+model_svmRadial
+
 ```
 --------------------------------------------------------------------------------------------------------------------------------
+
+# Run resamples() to compare the models
+```R
+# Compare model performances using resample()
+models_compare <- resamples(list(ADABOOST=model_adaboost, 
+                             RF=model_rf, 
+                             XGBDART=model_xgbDART, 
+                             MARS=model_mars3, 
+                             SVM=model_svmRadial))
+
+# Summary of the models performances
+summary(models_compare)
+```
+-----------------------------------------------------------------------------------------------------------------------------------------
+
 # Metrics
 ## MAE
 ## MAPE
