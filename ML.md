@@ -397,9 +397,22 @@ bwplot(results, scales=scales)
 ```
 
 -----------------------------------------------------------------------------------------------------------------------------------
+# How to combine the predictions of multiple models to form a final prediction?
+## Turns out this can be done too, using the caretStack(). 
+## You just need to make sure ""you don’t use the same trainControl" you used to build the models.
+```R
+# Create the trainControl
+set.seed(101)
+stackControl <- trainControl(method="repeatedcv", 
+                             number=10, 
+                             repeats=3,
+                             savePredictions=TRUE, 
+                             classProbs=TRUE)
 
-
-
+# Ensemble the predictions of `models` to form a new combined prediction based on glm
+stack.glm <- caretStack(models, method="glm", metric="Accuracy", trControl=stackControl)
+print(stack.glm)
+```
 -----------------------------------------------------------------------------------------------------------------------------------------
 # Metrics
 ## MAE
