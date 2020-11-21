@@ -293,8 +293,23 @@ for (nodesize in c(1, 2, 4, 8)) {
 resamples(models) %>% summary(metric = "Accuracy")
 ```
 
+-----------------------------------------------------------------------------------------------------
+
+## Adaboost-Gradient Boosting (Adaboost)
+```R
+set.seed(100)
+
+# Train the model using adaboost
+model_adaboost = train(Purchase ~ ., 
+                 data=trainData, 
+                 method='adaboost', 
+                 tuneLength=2, 
+                 trControl = fitControl)
+model_adaboost
+```
+
 -------------------------------------------------------------------------------------------------------------------------
-## Gradient Boosting
+## Gradient Boosting (xgbTree)
 ```R
 library(xgboost)
 # Fit the model on the training set
@@ -316,6 +331,19 @@ mean(predicted.classes == test.data$diabetes)
 # displays the importance of variables in percentage
 varImp(model)
 
+```
+-------------------------------------------------------------------------------------------------------------------------------
+## Adaboost-Gradient Boosting (Adaboost)
+```R
+set.seed(100)
+
+# Train the model using adaboost
+model_adaboost = train(Purchase ~ ., 
+                 data=trainData, 
+                 method='adaboost', 
+                 tuneLength=2, 
+                 trControl = fitControl)
+model_adaboost
 ```
 --------------------------------------------------------------------------------------------------------------------------------
 # Metrics
