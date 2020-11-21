@@ -367,7 +367,33 @@ scales <- list(x=list(relation="free"), y=list(relation="free"))
 bwplot(models_compare, scales=scales)
 ```
 -----------------------------------------------------------------------------------------------------------------------------------------
+# caretEnsemble
+## How to combine the predictions of multiple models to form a final prediction?
+```R
+library(caretEnsemble)
 
+# Stacking Algorithms - Run multiple algos in one call.
+trainControl <- trainControl(method="repeatedcv", 
+                             number=10, 
+                             repeats=3,
+                             savePredictions=TRUE, 
+                             classProbs=TRUE)
+
+algorithmList <- c('rf', 'adaboost', 'earth', 'xgbDART', 'svmRadial')
+
+set.seed(100)
+models <- caretList(Purchase ~ ., 
+                     data=trainData, 
+                     trControl=trainControl, 
+                     methodList=algorithmList) 
+results <- resamples(models)
+summary(results)
+```
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
 # Metrics
 ## MAE
 ## MAPE
