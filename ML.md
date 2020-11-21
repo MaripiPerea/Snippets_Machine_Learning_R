@@ -389,6 +389,13 @@ models <- caretList(Purchase ~ .,
 results <- resamples(models)
 summary(results)
 ```
+-----------------------------------------------------------------------------------------------------------------------------
+# Box plots to compare models
+```R
+scales <- list(x=list(relation="free"), y=list(relation="free"))
+bwplot(results, scales=scales)
+```
+
 -----------------------------------------------------------------------------------------------------------------------------------
 
 
