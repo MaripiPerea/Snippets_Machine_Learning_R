@@ -46,8 +46,8 @@ anyNA(orange1)
 ```
 -------------------------------------------------------------------------------------------------------------------------
 # One-Hot Encoding 
-# If you have a categorical column as one of the features, 
-# it needs to be converted to numeric in order for it to be used by the machine learning algorithms
+### If you have a categorical column as one of the features, 
+### it needs to be converted to numeric in order for it to be used by the machine learning algorithms
 ```R
 # Creating dummy variables is converting a categorical variable to as many binary variables as here are categories.
 dummies_model <- dummyVars(Purchase ~ ., data=trainData)
@@ -97,6 +97,43 @@ modelnames
 ## 
 
 ## Linear Regression
+
+
+-------------------------------------------------------------------------------------------------------------------------
+## Multivariate Adaptive Regression Splines (MARS) model by setting the method='earth'.
+
+```R
+# Step 1: Define the training control
+fitControl <- trainControl(
+    method = 'cv',                   # k-fold cross validation
+    number = 5,                      # number of folds
+    savePredictions = 'final',       # saves predictions for optimal tuning parameter
+    classProbs = T,                  # should class probabilities be returned
+    summaryFunction=twoClassSummary  # results summary function
+) 
+# Step 2: Define the tuneGrid
+marsGrid <-  expand.grid(nprune = c(2, 4, 6, 8, 10), 
+                        degree = c(1, 2, 3))
+
+# Step 3: Tune hyper parameters by setting tuneGrid
+set.seed(100)
+model_mars3 = train(Purchase ~ ., 
+                   data=trainData, 
+                   method='earth', 
+                   metric='ROC', 
+                   tuneGrid = marsGrid, 
+                   trControl = fitControl)
+
+# Step 4: Predict on testData and Compute the confusion matrix
+predicted3 <- predict(model_mars3, testData4)
+
+confusionMatrix(reference = testData$Purchase, 
+                data = predicted3, 
+                mode='everything', 
+                positive='MM')
+
+```
+
 
 ----------------------------------------------------------------------------------------------------------------------------
 ## K-Neighbors "Regression"
